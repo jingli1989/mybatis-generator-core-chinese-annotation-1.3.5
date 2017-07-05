@@ -56,7 +56,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
         commentGenerator.addJavaFileComment(topLevelClass);
 
         // 添加类注释
-        commentGenerator.addExampleClassComment(topLevelClass);
+        commentGenerator.addExampleClassComment(topLevelClass,introspectedTable);
 
         // add default constructor
         Method method = new Method();

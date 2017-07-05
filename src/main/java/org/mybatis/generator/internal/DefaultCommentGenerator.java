@@ -181,14 +181,21 @@ public class DefaultCommentGenerator implements CommentGenerator {
      * @param javaElement
      */
     @Override
-    public void addExampleClassComment(JavaElement javaElement) {
+    public void addExampleClassComment(JavaElement javaElement,IntrospectedTable introspectedTable) {
         // * @author Acooly Code Generator
         // * Date: 2016-04-05 20:12:59
         if (suppressAllComments) {
             return;
         }
+        String remarks = introspectedTable.getFullyQualifiedTable().getRemark();
+        String tableName = introspectedTable.getFullyQualifiedTable().getIntrospectedTableName();
         javaElement.addJavaDocLine("/**");
-        javaElement.addJavaDocLine(" * 本文件由 https://github.com/orange1438/mybatis-generator-core-chinese-annotation1.3.5-chinese-annotation 自动生成");
+        if(remarks!=null&&remarks.length()>0){
+            javaElement.addJavaDocLine(" * "+tableName+"("+remarks+")"+" 数据库操作");
+        }else {
+            javaElement.addJavaDocLine(" * "+tableName+" 数据库操作");
+        }
+
         //    javaElement.addJavaDocLine(" * 本文件由 橙子 自动生成");
         addJavadocTag(javaElement, false);
         javaElement.addJavaDocLine(" */");
@@ -257,13 +264,13 @@ public class DefaultCommentGenerator implements CommentGenerator {
         //对应表中字段的备注(数据库中自己写的备注信息)
         if (introspectedColumn.getRemarks() != null
                 && !introspectedColumn.getRemarks().equals("")) {
-            sb.append("// " + introspectedColumn.getRemarks());
+            sb.append("/** " + introspectedColumn.getRemarks());
             if (introspectedColumn.getDefaultValue() != null && !introspectedColumn.getDefaultValue().isEmpty()) {
                 sb.append("  默认：" + introspectedColumn.getDefaultValue());
             }
         }
         if (sb.length() > 0) {
-            field.addJavaDocLine(sb.toString());
+            field.addJavaDocLine(sb.toString()+" */");
         }
     }
 
@@ -287,7 +294,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
             sb.append("串行版本ID");
         }
         if (sb.length() > 0) {
-            field.addJavaDocLine("//" + sb.toString());
+            field.addJavaDocLine("/** " + sb.toString() +"*/");
         }
     }
 

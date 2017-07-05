@@ -90,7 +90,7 @@ public interface CommentGenerator {
      * 添加非model类的注释
      * @param javaElement
      */
-    void addExampleClassComment(JavaElement javaElement);
+    void addExampleClassComment(JavaElement javaElement,IntrospectedTable introspectedTable);
 
     /**
      * Adds the inner class comment.
